@@ -69,3 +69,6 @@ build/
 
 # Arquivos de configuração de workspace
 .vscode/
+
+# Trava do LibreOffice
+*.odt#

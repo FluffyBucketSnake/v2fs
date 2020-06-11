@@ -1,0 +1,12 @@
+#pragma once
+
+//
+// Short for file descriptor handle. It's an index to the open files table of an user.
+// Used to identify which is being operated on.
+//
+typedef int fd_t;
+
+//
+// Represents a offset amount.
+//
+typedef long off_t;

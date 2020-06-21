@@ -1,5 +1,6 @@
 add_library(
-    libv2fs
+    libv2fs 
+    src/inode.c
     src/file.c 
     src/mount.c
     "src/internal.c"

@@ -15,7 +15,13 @@ struct inode_operations
 
 
 struct inode {
-    unsigned int *i_count;                  // The number of dentries referencing this inode.
+    unsigned int *i_count;                  // Reference count.
     const struct inode_operations *i_op;    // Inode operations.
     void *i_info;                           // Filesystem-specific inode information.
 };
+
+struct inode *inew(const struct inode_operations *op);
+
+struct inode *iget(struct inode *ref);
+
+void iput(struct inode *ref);

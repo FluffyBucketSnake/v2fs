@@ -17,28 +17,6 @@ struct file {
 };
 
 //
-// Holds the pointers to the implementation-specific functions that operate over this
-// file.
-//
-struct file_operations
-{
-    int (*seek)(struct file *self, long offset, int whence);
-    int (*read)(struct file *self, char *buffer, int count);
-    int (*write)(struct file *self, char *buffer, int count);
-};
-
-//
-// SEEK_SET: the offset of the file is set relative to the beggining of the file.
-// SEEK_CUR: the offset of the file is set relative to its current position.
-// SEEK_END: the offset of the file is set relative to the end of the file.
-//
-enum whence {
-    SEEK_SET,
-    SEEK_CUR,
-    SEEK_END
-};
-
-//
 // Get file from file descriptor.
 //
 struct file *fget(fd_t fd);

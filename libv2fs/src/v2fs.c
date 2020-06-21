@@ -21,7 +21,9 @@ int v2fs_mount_root(const char *fs_name) {
         return -ENOTFOUND;
     }
 
-    root_super = fs->mount(0);
+    // TODO: Replace with a function that finds a open slot in the table.
+    super_block_table[sbt_count++] = fs->mount(0);
+    root_super = super_block_table + sbt_count - 1;
     root_super->s_root->d_name = "/";
 }
 

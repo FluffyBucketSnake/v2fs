@@ -1,12 +1,13 @@
 #include <inode.h>
 #include <stdlib.h>
 
-struct inode *inew(const struct inode_operations *op) {
+struct inode *inew() {
     struct inode *new = malloc(sizeof(struct inode));
 
     new->i_count = 1;
     new->i_info = 0;
-    new->i_op = op;
+    new->i_op = 0;
+    new->i_fop = 0;
 
     return new;
 }

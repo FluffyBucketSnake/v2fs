@@ -8,6 +8,6 @@
 //
 struct super_block
 {
-    const file_system_type *s_fs;   // The file system type.
-    void *s_info;                   // File system implementation specific data.
+    const struct file_system_type *s_fs;    // The file system type.
+    void *s_info;                           // File system implementation specific data.
 };

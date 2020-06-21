@@ -29,3 +29,23 @@ int register_filesystem(const struct file_system_type *fs) {
     // No error.
     return 0;
 }
+
+// !TODO: Add error codes.
+const struct file_system_type *find_filesystem(const char *name) {
+    if (!name) {
+        return 0;
+    }
+
+    const struct file_system_type *cur = fs_type_head;
+    while (cur) {
+        // Compare names.
+        if (strcmp(name, cur->name) == 0) {
+            return cur;
+        }
+
+        // Check next.
+        cur = cur->next;
+    }
+
+    return 0;
+}

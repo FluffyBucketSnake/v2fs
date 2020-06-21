@@ -18,6 +18,11 @@ struct file_system_type {
 int register_filesystem(const struct file_system_type *fs);
 
 //
+// Finds the filesystem with the specified name.
+//
+const struct file_system_type *find_filesystem(const char *name);
+
+//
 // Unregisters the file system type from the V2FS library.
 //
 // int uregister_filesystem(const struct file_system_type *fs);

@@ -2,6 +2,9 @@
 
 #include <types.h>
 #include <dentry.h>
+#include <inode.h>
+
+struct file_operations;
 
 //
 // Represents a open file to a user. Holds the data to the access mode and another
@@ -9,6 +12,19 @@
 //
 struct file {
     struct dentry *f_dentry;
+    const struct file_operations *f_ops;
+    struct inode *f_inode;
+};
+
+//
+// Holds the pointers to the implementation-specific functions that operate over this
+// file.
+//
+struct file_operations
+{
+    int (*seek)(struct file *self, long offset, int whence);
+    int (*read)(struct file *self, char *buffer, int count);
+    int (*write)(struct file *self, char *buffer, int count);
 };
 
 //
@@ -21,6 +37,11 @@ enum whence {
     SEEK_CUR,
     SEEK_END
 };
+
+//
+// Get file from file descriptor.
+//
+struct file *fget(fd_t fd);
 
 //
 // Open file: opens a file in the specified path.
@@ -56,4 +77,4 @@ int write(fd_t fd, void *buffer, int count, int size);
 // If successeful, the resulting offset location, measured in bytes, relative to the
 // beginning of the file. Otherwise, returns (off_t)-1.
 //
-long seek(fd_t fd, long *offset, int whence);
+long seek(fd_t fd, long offset, int whence);

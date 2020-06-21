@@ -1,4 +1,4 @@
-add_executable(ramfs src/ramfs.c)
+add_library(ramfs src/ramfs.c)
 
 target_link_libraries(ramfs libv2fs)
 

@@ -3,5 +3,6 @@
 enum error {
     EINVAL = 1,
     EBUSY = 2,
-    ENOTFOUND = 3
+    ENOTFOUND = 3,
+    ENOTDIR = 4
 };

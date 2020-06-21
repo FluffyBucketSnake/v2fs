@@ -4,5 +4,7 @@ enum error {
     EINVAL = 1,
     EBUSY = 2,
     ENOTFOUND = 3,
-    ENOTDIR = 4
+    EISDIR = 4,
+    ENOTDIR = 5,
+    EEXISTS = 6
 };

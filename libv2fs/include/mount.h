@@ -7,7 +7,7 @@ struct super_block;
 //
 struct file_system_type {
     const char* name;                                       // Unique identifier of file system type.
-    struct super_block (*mount) (void *data);              // Mounts a filesystem using the specified data 
+    struct super_block (*mount) (void *data);               // Mounts a filesystem using the specified data 
     void (*kill_sb) (struct super_block *super_block);      // Umounts the specified file system.
     struct file_system_type *next;                          // Holds the pointer to the next registered entry.
 };

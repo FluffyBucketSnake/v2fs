@@ -1,5 +1,7 @@
 #pragma once
 
+struct super_block;
+
 //
 // Holds the pointers for the implmentation of each inode method.
 //
@@ -38,7 +40,8 @@ struct file_operations
 struct inode {
     unsigned int *i_count;                  // Reference count.
     const struct inode_operations *i_op;    // Inode operations.
-    const struct file_operations *i_fop;   // File operations.
+    const struct file_operations *i_fop;    // File operations.
+    struct super_block *i_sb;               // Filesystem in which this file belongs.
     void *i_info;                           // Filesystem-specific inode information.
 };
 

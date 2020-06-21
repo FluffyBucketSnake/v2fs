@@ -1,6 +1,14 @@
 #pragma once
 
+#include <mount.h>
+#include <super.h>
+#include <dentry.h>
+#include <inode.h>
 #include <file.h>
+#include <types.h>
+
+#define MAX_SUPER_BLOCK 32
+#define MAX_FILE 32
 
 //
 // Initializes and setups the V2FS library. It's require to call this function before any
@@ -10,11 +18,13 @@
 int v2fs_init();
 
 //
-// Gets the error code stored in the error global variable.
+// Mounts the root filesystem.
+// fs_name: the root's file system type identifier.
+// Returns 0 on success, or -1 on failure and sets the global error variable accordingly.
 //
-int v2fs_get_error();
+int v2fs_mount_root(const char *fs_name);
 
 //
-// Fetches the text of the specified error code.
+// Uninitializes the V2FS library.
 //
-const char *v2fs_get_error_text();
+void v2fs_close();

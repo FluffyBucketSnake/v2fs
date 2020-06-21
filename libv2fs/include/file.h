@@ -14,6 +14,7 @@ struct file {
     struct dentry *f_dentry;
     const struct file_operations *f_ops;
     struct inode *f_inode;
+    off_t f_off;
 };
 
 //

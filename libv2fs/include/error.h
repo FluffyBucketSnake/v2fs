@@ -2,5 +2,6 @@
 
 enum error {
     EINVAL = 1,
-    EBUSY = 2
+    EBUSY = 2,
+    ENOTFOUND = 3
 };

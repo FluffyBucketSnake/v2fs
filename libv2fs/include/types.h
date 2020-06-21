@@ -7,6 +7,11 @@
 typedef int fd_t;
 
 //
+// Used for array counting and indexing.
+//
+typedef unsigned long size_t;
+
+//
 // Represents a offset amount.
 //
 typedef long off_t;

@@ -34,7 +34,7 @@ static struct dentry *ramfs_make_root(struct ramfs_sb_info *super) {
     root_ri->i_mode = RFM_DIR;
     ramfs_dir_init(&root_ri->i_dir);
     
-    struct inode * root_i = inew();
+    struct inode * root_i = inew(0);
     root_i->i_info = root_ri;
     root_i->i_op = &ramfs_dir_inode_operations;
     root_i->i_fop = &ramfs_dir_operations;
@@ -83,7 +83,7 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
     ramfs_file_init(&new_ri->i_file);
     ramfs_dir_add(dir, dest->d_name, new_ri);
 
-    struct inode *new_i = inew();
+    struct inode *new_i = inew(0);
     new_i->i_info = new_ri;
     new_i->i_op = &ramfs_file_inode_operations;
     new_i->i_fop = &ramfs_file_operations;
@@ -100,7 +100,7 @@ struct dentry *ramfs_inode_lookup(struct inode *self, struct dentry *dest) {
     struct inode *inode;
 
     if (res) {
-        inode = inew();
+        inode = inew(0);
 
         // Check filemode.
         switch(res->d_inode->i_mode) {
@@ -146,7 +146,7 @@ int ramfs_inode_mkdir(struct inode *self, struct dentry *dest) {
     ramfs_dir_init(&new_ri->i_dir);
     ramfs_dir_add(dir, dest->d_name, new_ri);
 
-    struct inode *new_i = inew();
+    struct inode *new_i = inew(0);
     new_i->i_info = new_ri;
     new_i->i_op = &ramfs_dir_inode_operations;
     new_i->i_fop = &ramfs_dir_operations;

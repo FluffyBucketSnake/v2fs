@@ -15,3 +15,8 @@ typedef unsigned long size_t;
 // Represents a offset amount.
 //
 typedef long off_t;
+
+//
+// Used to store a hash value.
+//
+typedef unsigned long hash_t;

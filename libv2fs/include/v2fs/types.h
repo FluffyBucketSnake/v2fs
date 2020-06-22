@@ -15,3 +15,8 @@ typedef unsigned long size_t;
 // Represents a offset amount.
 //
 typedef long off_t;
+
+//
+// Represents an inode number.
+//
+typedef unsigned long ino_t;

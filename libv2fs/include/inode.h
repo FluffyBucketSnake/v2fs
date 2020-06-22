@@ -16,6 +16,8 @@ struct inode_operations
     int (*unlink) (struct inode *self, struct dentry *dest);
     // Look for an inode associated with a directory entry.
     struct dentry *(*lookup)(struct inode *self, struct dentry *target);
+    // Look for an inode associated with a directory entry.
+    int (*mkdir)(struct inode *self, struct dentry *target);
 };
 
 //

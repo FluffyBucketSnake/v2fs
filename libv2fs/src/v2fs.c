@@ -3,7 +3,7 @@
 #include <internal.h>
 
 int v2fs_init() {
-
+    // Placeholder function
 }
 
 int v2fs_mount_root(const char *fs_name) {
@@ -31,5 +31,5 @@ int v2fs_mount_root(const char *fs_name) {
 }
 
 void v2fs_close() {
-    
+    // !!!TODO!!! Clean mounted partitions.
 }

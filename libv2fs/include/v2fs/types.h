@@ -20,3 +20,8 @@ typedef long off_t;
 // Represents an inode number.
 //
 typedef unsigned long ino_t;
+
+//
+// Used to store a hash value.
+//
+typedef unsigned long hash_t;

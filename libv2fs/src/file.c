@@ -78,7 +78,7 @@ fd_t open(const char *pathname)
     // Search for pathname.
     err = path_lookup(pathname, &nd);
     if (err) {
-        return err;
+        return -1;
     }
 
     // Test for negative dentry.
@@ -96,7 +96,7 @@ fd_t open(const char *pathname)
 
         if (err) {
             fput(file);
-            return err;
+            return -1;
         }
     }
     

@@ -37,7 +37,8 @@ struct dentry *dlookup(struct dentry *self, const char *filename) {
     }
     else {
         lookup(self->d_inode, target);
-        target->d_inode->i_sb = self->d_inode->i_sb;
+        if (target->d_inode)
+            target->d_inode->i_sb = self->d_inode->i_sb;
         return target;
     }
 }

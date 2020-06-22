@@ -123,6 +123,34 @@ int close(fd_t fd)
     }
 }
 
+int mkdir(const char *pathname) {
+    int err;
+    struct nameidata nd;
+
+    // Search for pathname.
+    err = path_lookup(pathname, &nd);
+    if (err) {
+        return -1;
+    }
+
+    // Dentry must be negative.
+    if (nd.current->d_inode) {
+        // TODO: Set error as EEXISTS.
+        return -1;
+    }
+
+    // Create new folder.
+    int (*mkdir)(struct inode *, struct dentry *) = nd.parent->d_inode->i_op->mkdir;
+
+    if (!mkdir) {
+        return -1;
+    }
+
+    err = mkdir(nd.parent->d_inode, nd.current);
+
+    return err ? -1 : 0;
+}
+
 int read(fd_t fd, void *buffer, int count, int size)
 {
     if (!buffer || count < 0 || size < 1) {

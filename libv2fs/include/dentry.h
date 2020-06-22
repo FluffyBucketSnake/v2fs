@@ -29,3 +29,21 @@ struct dentry *dget(struct dentry *dentry);
 // dentry and, if it reaches zero, frees it.
 //
 void *dput(struct dentry *dentry);
+
+//
+// Look for dentry with the specified filename in the sent dentry.
+//
+struct dentry *dlookup(struct dentry *self, const char *filename);
+
+//
+// Data structure used for pathname traversal.
+//
+struct nameidata {
+    struct dentry *parent;
+    struct dentry *current;
+};
+
+//
+// Look for the dentry associated with the specified pathname.
+//
+int path_lookup(const char *pathname, struct nameidata *nd);

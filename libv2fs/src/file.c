@@ -63,45 +63,48 @@ struct file *fput(struct file *file) {
 
 fd_t open(const char *pathname)
 {
+    int err;
+
     if (!root_super)
     {
         return -1;
     }
 
-    struct dentry *parent = root_super->s_root;
-    struct dentry *current = parent;
-    struct dentry *(*lookup)(struct inode *, struct dentry *) = current->d_inode->i_op->lookup;
-    struct dentry *target = dnew(pathname, 0);
     fd_t fd = fd_get_free();
     struct file *file = fnew(fd);
 
-    // Search for pathname.
-    if ((current = lookup(current->d_inode, target)))
-    {
-        file->f_dentry = current;
-        file->f_op = current->d_inode->i_fop;
+    struct nameidata nd;
 
-        return fd;
+    // Search for pathname.
+    err = path_lookup(pathname, &nd);
+    if (err) {
+        return err;
     }
-    else {
+
+    // Test for negative dentry.
+    if (!nd.current->d_inode)
+    {
         // Create new file.
-        int (*create)(struct inode *, struct dentry *) = parent->d_inode->i_op->create;
+        int (*create)(struct inode *, struct dentry *) = nd.parent->d_inode->i_op->create;
 
         if (!create) {
             fput(file);
             return -1;
         }
 
-        if (create(parent->d_inode, target) == 0) {
-            file->f_dentry = target;
-            file->f_op = target->d_inode->i_fop;
-            file->f_dentry->d_inode->i_sb = parent->d_inode->i_sb;
+        err = create(nd.parent->d_inode, nd.current);
 
-            return fd;
+        if (err) {
+            fput(file);
+            return err;
         }
-
-        return -1;
     }
+    
+    file->f_dentry = nd.current;
+    file->f_op = nd.current->d_inode->i_fop;
+    file->f_dentry->d_inode->i_sb = nd.parent->d_inode->i_sb;
+
+    return fd;
 }
 
 int close(fd_t fd)

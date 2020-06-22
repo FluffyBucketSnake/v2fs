@@ -48,7 +48,7 @@ int main() {
     }
 
     // Print contents.
-    printf("%s", text1);
+    printf("%s\n", text1);
 
     // Close file.
     close(fd);

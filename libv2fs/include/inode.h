@@ -1,5 +1,8 @@
 #pragma once
 
+struct dentry;
+struct file;
+struct inode;
 struct super_block;
 
 //
@@ -21,9 +24,9 @@ struct inode_operations
 // SEEK_END: the offset of the file is set relative to the end of the file.
 //
 enum whence {
-    SEEK_SET,
-    SEEK_CUR,
-    SEEK_END
+    VSEEK_SET,
+    VSEEK_CUR,
+    VSEEK_END
 };
 
 //
@@ -34,11 +37,11 @@ struct file_operations
 {
     int (*seek)(struct file *self, long offset, int whence);
     int (*read)(struct file *self, char *buffer, int count);
-    int (*write)(struct file *self, char *buffer, int count);
+    int (*write)(struct file *self, const char *buffer, int count);
 };
 
 struct inode {
-    unsigned int *i_count;                  // Reference count.
+    unsigned int i_count;                  // Reference count.
     const struct inode_operations *i_op;    // Inode operations.
     const struct file_operations *i_fop;    // File operations.
     struct super_block *i_sb;               // Filesystem in which this file belongs.

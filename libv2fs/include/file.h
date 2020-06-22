@@ -49,7 +49,7 @@ int read(fd_t fd, void *buffer, int count, int size);
 // Returns: if the operation was successful, the a positive integer representing the 
 // number of bytes written. Otherwise, returns -1.
 //
-int write(fd_t fd, void *buffer, int count, int size);
+int write(fd_t fd, const void *buffer, int count, int size);
 
 //
 // Seek file: sets the position of the read/write position of the file descriptor.

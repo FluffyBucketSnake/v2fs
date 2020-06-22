@@ -3,7 +3,7 @@
 #include <error.h>
 #include <string.h>
 
-int register_filesystem(const struct file_system_type *fs) {
+int register_filesystem(struct file_system_type *fs) {
     // Check if name is valid.
     // 'name' must not be null.
     // 'name' must be longer than 1 character.

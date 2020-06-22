@@ -4,7 +4,7 @@ struct ramfs_inode;
 
 struct ramfs_dentry
 {
-    char *d_name;
+    const char *d_name;
     struct ramfs_inode *d_inode;
 };
 

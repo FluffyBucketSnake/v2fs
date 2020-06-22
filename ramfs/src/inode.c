@@ -1,5 +1,6 @@
 #include "inode.h"
 #include "super.h"
+#include <stdlib.h>
 
 void ramfs_clear_inodes(struct ramfs_inode *inodes, int count) {
     unsigned int i;

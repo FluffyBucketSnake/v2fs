@@ -5,6 +5,29 @@
 #include <string.h>
 #include "super.h"
 
+static struct file_system_type ramfs_file_system_type = {
+    .name = "ramfs",
+    .mount = ramfs_mount
+};
+
+static struct inode_operations ramfs_file_inode_operations = { 
+    .create = 0,
+    .lookup = 0
+};
+static struct inode_operations ramfs_dir_inode_operations = { 
+    .create = ramfs_inode_create,
+    .lookup = ramfs_inode_lookup
+};
+
+static struct file_operations ramfs_file_operations = {
+    .write = ramfs_file_write,
+    .read = ramfs_file_read
+};
+static struct file_operations ramfs_dir_operations = {
+    .write = 0,
+    .read = 0
+};
+
 static struct dentry *ramfs_make_root(struct ramfs_sb_info *super) {
     struct ramfs_inode *root_ri = ramfs_new_inode(super);
     root_ri->i_mode = RFM_DIR;
@@ -51,7 +74,7 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
     }
 
     // Create a new file inode.
-    struct ramfs_inode *new_ri = ramfs_new_inode(self->i_sb);
+    struct ramfs_inode *new_ri = ramfs_new_inode(self->i_sb->s_info);
     new_ri->i_mode = RFM_FILE;
     ramfs_file_init(&new_ri->i_file);
 
@@ -68,7 +91,7 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
 
 int ramfs_file_write(struct file *self, char *buffer, int count) {
     // Get file inode.
-    struct ramfs_inode *inode = &self->f_inode->i_info;
+    struct ramfs_inode *inode = self->f_inode->i_info;
     struct ramfs_file *info = &inode->i_file;
 
     // Check current file size.
@@ -91,7 +114,7 @@ int ramfs_file_read(struct file *self, char *buffer, int count) {
     size_t start;
 
     // Get file inode.
-    struct ramfs_inode *inode = &self->f_inode->i_info;
+    struct ramfs_inode *inode = self->f_inode->i_info;
     struct ramfs_file *info = &inode->i_file;
 
     // Limit count
@@ -106,4 +129,10 @@ int ramfs_file_read(struct file *self, char *buffer, int count) {
     else {
         return 0;
     }
+}
+
+int ramfs_init() {
+    register_filesystem(&ramfs_file_system_type);
+
+    return 0;
 }

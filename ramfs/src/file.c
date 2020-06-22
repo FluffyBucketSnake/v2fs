@@ -1,4 +1,5 @@
 #include "file.h"
+#include <stdlib.h>
 
 void ramfs_file_init(struct ramfs_file *self) {
     // !!!TODO!!! : Add test for malloc failure.

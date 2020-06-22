@@ -15,7 +15,7 @@ struct file_system_type {
 //
 // Registers the file system type into the V2FS library.
 //
-int register_filesystem(const struct file_system_type *fs);
+int register_filesystem(struct file_system_type *fs);
 
 //
 // Finds the filesystem with the specified name.

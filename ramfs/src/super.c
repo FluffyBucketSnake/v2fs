@@ -1,4 +1,5 @@
 #include "super.h"
+#include <stdlib.h>
 
 struct ramfs_sb_info *ramfs_make_sb_info() {
     struct ramfs_sb_info *new;

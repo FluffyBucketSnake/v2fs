@@ -1,6 +1,13 @@
-add_library(ramfs src/ramfs.c)
+add_library(
+    ramfs STATIC 
+    src/dir.c
+    src/file.c
+    src/inode.c
+    src/ramfs.c
+    src/super.c
+    )
 
-target_link_libraries(ramfs libv2fs)
+target_link_libraries(ramfs PUBLIC libv2fs)
 
-target_include_directories(ramfs PUBLIC include/)
-target_include_directories(ramfs PRIVATE src/)
+target_include_directories(ramfs PUBLIC include)
+target_include_directories(ramfs PRIVATE src)

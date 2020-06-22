@@ -7,8 +7,8 @@ int main() {
     // Initialize V2FS
     v2fs_init();
 
-    // Register filesystem types.
-    register_filesystem(ramfs_file_system_type);
+    // Init ramfs module.
+    // ramfs_init();
 
     // Mount the root filesystem.
     v2fs_mount_root("ramfs");

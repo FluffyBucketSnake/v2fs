@@ -41,7 +41,7 @@ struct file_operations
 };
 
 struct inode {
-    unsigned int i_count;                  // Reference count.
+    unsigned int i_count;                   // Reference count.
     const struct inode_operations *i_op;    // Inode operations.
     const struct file_operations *i_fop;    // File operations.
     struct super_block *i_sb;               // Filesystem in which this file belongs.

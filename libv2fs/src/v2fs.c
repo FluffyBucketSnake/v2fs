@@ -27,8 +27,7 @@ int v2fs_mount_root(const char *fs_name) {
     root_super->s_root->d_name = "/";
 
     // Update super block of the new inode.
-    struct inode *root_inode = root_super->s_root->d_inode;
-    root_inode->i_sb = root_super;
+    root_super->s_root->d_inode->i_sb = root_super;
 }
 
 void v2fs_close() {

@@ -16,6 +16,9 @@ struct dentry *dget(struct dentry *dentry) {
 
 void *dput(struct dentry *dentry) {
     if ((--dentry->d_count) == 0) {
+        if (dentry->d_inode)
+            iput(dentry->d_inode);
+
         free(dentry);
     }
     return dentry;

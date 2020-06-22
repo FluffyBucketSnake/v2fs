@@ -112,7 +112,7 @@ struct dentry *ramfs_inode_lookup(struct inode *self, struct dentry *dest) {
 
 int ramfs_file_write(struct file *self, const char *buffer, int count) {
     // Get file inode.
-    struct ramfs_inode *inode = self->f_inode->i_info;
+    struct ramfs_inode *inode = self->f_dentry->d_inode->i_info;
     struct ramfs_file *info = &inode->i_file;
 
     // Check current file size.
@@ -135,7 +135,7 @@ int ramfs_file_read(struct file *self, char *buffer, int count) {
     size_t start;
 
     // Get file inode.
-    struct ramfs_inode *inode = self->f_inode->i_info;
+    struct ramfs_inode *inode = self->f_dentry->d_inode->i_info;
     struct ramfs_file *info = &inode->i_file;
 
     // Limit count

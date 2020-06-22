@@ -11,16 +11,26 @@ struct file_operations;
 // information needed to read/write the file.
 //
 struct file {
-    struct dentry *f_dentry;
-    const struct file_operations *f_op;
-    struct inode *f_inode;
-    off_t f_off;
+    size_t f_count;                             // Reference count.
+    struct dentry *f_dentry;                    // Dentry used to open file.
+    const struct file_operations *f_op;         // File operations.
+    off_t f_off;                                // Read/writer pointer.
 };
 
 //
-// Get file from file descriptor.
+// Builds a new file object from the file descriptor.
+//
+struct file *fnew(fd_t fd);
+
+//
+// Gets file from file descriptor.
 //
 struct file *fget(fd_t fd);
+
+//
+// Frees file object reference and reduces the struct's refcount.
+//
+struct file *fput(struct file *file);
 
 //
 // Open file: opens a file in the specified path.

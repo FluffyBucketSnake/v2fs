@@ -33,12 +33,6 @@ extern size_t ft_count;
 extern struct file file_table[];
 
 //
-// Holds the root dentry, whose filename is always "/". Must be null if there's no  root 
-// file system.
-//
-extern struct dentry *root_dentry;
-
-//
 // Holds the data of the mounted root filesystem.
 //
 extern struct super_block *root_super;

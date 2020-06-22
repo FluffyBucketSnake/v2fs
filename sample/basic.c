@@ -54,6 +54,43 @@ int main() {
     close(fd);
 
     //
+    // Creating a folder and a file inside it.
+    //
+
+    // MaKe DIRectory.
+    mkdir("pasta0");
+
+    // Create and open a file inside the new directory.
+    fd = open("pasta0/arquivo0");
+
+    // Write some stuff inside it.
+    const char text2[] = "Lorem Ipsum";
+    write(fd, text2, strlen(text2), sizeof(char));
+    
+    // Close file.
+    close(fd);
+
+    //
+    // Opening a file inside a directory.
+    //
+
+    // Open the file again.
+    fd = open("pasta0/arquivo0");
+
+    // Read the file
+    i = 0;
+    memset(text1, 0, 256);
+    while (read(fd, &c, 1, sizeof(char)) > 0) {
+        text1[i++] = c;
+    }
+
+    // Print contents.
+    printf("%s\n", text1);
+
+    // Close file.
+    close(fd);
+
+    //
     // Unitializing a file.
     //
 

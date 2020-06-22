@@ -31,6 +31,7 @@ static struct file_operations ramfs_dir_operations = {
 static struct dentry *ramfs_make_root(struct ramfs_sb_info *super) {
     struct ramfs_inode *root_ri = ramfs_new_inode(super);
     root_ri->i_mode = RFM_DIR;
+    ramfs_dir_init(&root_ri->i_dir);
     
     struct inode * root_i = inew();
     root_i->i_info = root_ri;
@@ -69,7 +70,7 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
     struct ramfs_directory *dir = &info->i_dir;
 
     // Check if there's already a file with the same name.
-    if (!ramfs_dir_lookup(dir, dest->d_name)) {
+    if (ramfs_dir_lookup(dir, dest->d_name)) {
         return -EEXISTS;
     }
 
@@ -77,6 +78,7 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
     struct ramfs_inode *new_ri = ramfs_new_inode(self->i_sb->s_info);
     new_ri->i_mode = RFM_FILE;
     ramfs_file_init(&new_ri->i_file);
+    ramfs_dir_add(dir, dest->d_name, new_ri);
 
     struct inode *new_i = inew();
     new_i->i_info = new_ri;
@@ -89,7 +91,26 @@ int ramfs_inode_create(struct inode *self, struct dentry *dest) {
     return 0;
 }
 
-int ramfs_file_write(struct file *self, char *buffer, int count) {
+struct dentry *ramfs_inode_lookup(struct inode *self, struct dentry *dest) {
+    struct ramfs_inode *info = self->i_info;
+    struct ramfs_dentry *res = ramfs_dir_lookup(&info->i_dir, dest->d_name);
+    struct inode *inode;
+    
+    if (!res) {
+        return 0;
+    } 
+    else {
+        inode = inew();
+        inode->i_fop = &ramfs_file_operations;
+        inode->i_op = &ramfs_file_inode_operations;
+        inode->i_info = res->d_inode;
+
+        dest->d_inode = inode;
+        return dest;
+    }
+}
+
+int ramfs_file_write(struct file *self, const char *buffer, int count) {
     // Get file inode.
     struct ramfs_inode *inode = self->f_inode->i_info;
     struct ramfs_file *info = &inode->i_file;
@@ -124,6 +145,7 @@ int ramfs_file_read(struct file *self, char *buffer, int count) {
     // Read file until EOF.
     if (count > 0) {
         memcpy(buffer, info->f_data + start, count);
+        self->f_off += count;
         return count;
     }
     else {

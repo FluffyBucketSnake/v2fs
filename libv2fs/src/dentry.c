@@ -4,11 +4,21 @@
 #include <string.h>
 #include "internal.h"
 
-struct dentry *dnew(const char *filename, struct inode *inode) {
+struct dentry *dnew(const char *filename, struct dentry *parent) {
+    // Allocate the new dentry.
     struct dentry *new = malloc(sizeof(struct dentry));
     new->d_name = filename;
-    new->d_inode = inode;
-    new->d_count;
+    new->d_count = 1;
+
+    // Try to connect to parent.
+    if (parent) {
+        new->d_parent = dget(parent);
+    }
+    else {
+        // This is a root dentry.
+        new->d_parent = new;
+    }
+
     return new;
 }
 

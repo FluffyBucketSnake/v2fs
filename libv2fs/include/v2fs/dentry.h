@@ -8,15 +8,17 @@
 // holds the data associated with the directory entry itself and not the file.
 //
 struct dentry {
-    const char *d_name;             // The filename of the directory entry.
-    struct inode *d_inode;    // The associated inode.
-    size_t d_count;           // The number of references to this dentry.
+    const char *d_name;         // The filename of the directory entry.
+    struct inode *d_inode;      // The associated inode.
+    size_t d_count;             // The number of references to this dentry.
+    struct dentry *d_parent;    // The parent of this dentry.
+    struct dentry *d_hash;      // Points to the next node of the hash list.
 };
 
 //
 // Creates a new dentry.
 //
-struct dentry *dnew(const char *filename, struct inode *inode);
+struct dentry *dnew(const char *filename, struct dentry *parent);
 
 //
 // Used when dentry pointer is copied to another variable. Increases the reference count

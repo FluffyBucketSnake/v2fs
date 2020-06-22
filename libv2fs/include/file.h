@@ -47,6 +47,13 @@ fd_t open(const char *pathname);
 int close(fd_t fd);
 
 //
+// Make directory: creates a new directory
+// Returns: returns 0 on success. On error, returns -1 and sets the error global
+// variable.
+//
+int mkdir(const char *pathname);
+
+//
 // Read from file: reads a number of bytes of a file and stores it in the specified
 // buffer.
 // Returns: if the operation was successful, the a positive integer representing the 

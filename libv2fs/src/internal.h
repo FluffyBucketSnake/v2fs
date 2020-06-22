@@ -22,6 +22,13 @@ extern size_t sbt_count;
 //
 extern struct super_block super_block_table[MAX_SUPER_BLOCK];
 
+#define DC_BUCKETC 16
+
+//
+// A hash table of dentries, used to accelerate lookup operations.
+//
+extern struct dcache dcache;
+
 //
 // Holds the amount of open files in the file table.
 //

@@ -45,7 +45,7 @@ struct file_operations
 };
 
 struct inode {
-    unsigned int i_ino;                     // Inode number.
+    ino_t i_ino;                            // Inode number.
     unsigned int i_count;                   // Reference count.
     const struct inode_operations *i_op;    // Inode operations.
     const struct file_operations *i_fop;    // File operations.

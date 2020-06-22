@@ -12,11 +12,13 @@ static struct file_system_type ramfs_file_system_type = {
 
 static struct inode_operations ramfs_file_inode_operations = { 
     .create = 0,
-    .lookup = 0
+    .lookup = 0,
+    .mkdir = 0
 };
 static struct inode_operations ramfs_dir_inode_operations = { 
     .create = ramfs_inode_create,
-    .lookup = ramfs_inode_lookup
+    .lookup = ramfs_inode_lookup,
+    .mkdir = ramfs_inode_mkdir
 };
 
 static struct file_operations ramfs_file_operations = {
@@ -98,14 +100,60 @@ struct dentry *ramfs_inode_lookup(struct inode *self, struct dentry *dest) {
 
     if (res) {
         inode = inew();
-        inode->i_fop = &ramfs_file_operations;
-        inode->i_op = &ramfs_file_inode_operations;
-        inode->i_info = res->d_inode;
 
+        // Check filemode.
+        switch(res->d_inode->i_mode) {
+            case RFM_DIR:
+            inode->i_fop = &ramfs_dir_operations;
+            inode->i_op = &ramfs_dir_inode_operations;
+            break;
+            default:
+            case RFM_FILE:
+            inode->i_fop = &ramfs_file_operations;
+            inode->i_op = &ramfs_file_inode_operations;
+            break;
+        }
+
+        inode->i_info = res->d_inode;
         dest->d_inode = inode;
     }
     
     return dest;
+}
+
+int ramfs_inode_mkdir(struct inode *self, struct dentry *dest) {
+    if (!self || !dest) {
+        return -EINVAL;
+    }
+
+    struct ramfs_inode *info = self->i_info;
+
+    // Check if inode is a directory.
+    if (info->i_mode != RFM_DIR) {
+        return -ENOTDIR;
+    }
+    struct ramfs_directory *dir = &info->i_dir;
+
+    // Check if there's already a file with the same name.
+    if (ramfs_dir_lookup(dir, dest->d_name)) {
+        return -EEXISTS;
+    }
+
+    // Create a new directory inode.
+    struct ramfs_inode *new_ri = ramfs_new_inode(self->i_sb->s_info);
+    new_ri->i_mode = RFM_DIR;
+    ramfs_dir_init(&new_ri->i_dir);
+    ramfs_dir_add(dir, dest->d_name, new_ri);
+
+    struct inode *new_i = inew();
+    new_i->i_info = new_ri;
+    new_i->i_op = &ramfs_dir_inode_operations;
+    new_i->i_fop = &ramfs_dir_operations;
+
+    // Fill dentry.
+    dest->d_inode = new_i;
+
+    return 0;
 }
 
 int ramfs_file_write(struct file *self, const char *buffer, int count) {

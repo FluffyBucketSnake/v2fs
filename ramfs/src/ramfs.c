@@ -39,7 +39,9 @@ static struct dentry *ramfs_make_root(struct ramfs_sb_info *super) {
     root_i->i_op = &ramfs_dir_inode_operations;
     root_i->i_fop = &ramfs_dir_operations;
 
-    return dnew(0, root_i);
+    struct dentry *root_d = dnew("/", 0);
+    root_d->d_inode = root_i;
+    return root_d;
 }
 
 struct super_block ramfs_mount(void *data) {

@@ -12,7 +12,7 @@ struct file_operations;
 //
 struct file {
     struct dentry *f_dentry;
-    const struct file_operations *f_ops;
+    const struct file_operations *f_op;
     struct inode *f_inode;
     off_t f_off;
 };

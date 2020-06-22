@@ -53,8 +53,18 @@ struct inode {
     void *i_info;                           // Filesystem-specific inode information.
 };
 
-struct inode *inew();
+//
+// Creates a new inode.
+//
+struct inode *inew(struct super_block *sb);
 
+//
+// Copies the inode pointer and increases its reference count.
+//
 struct inode *iget(struct inode *ref);
 
+//
+// Gets rid of the inode pointer and decreased its reference count. If it reaches zero,
+// the inode is freed.
+//
 void iput(struct inode *ref);

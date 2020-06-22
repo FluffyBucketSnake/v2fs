@@ -95,19 +95,17 @@ struct dentry *ramfs_inode_lookup(struct inode *self, struct dentry *dest) {
     struct ramfs_inode *info = self->i_info;
     struct ramfs_dentry *res = ramfs_dir_lookup(&info->i_dir, dest->d_name);
     struct inode *inode;
-    
-    if (!res) {
-        return 0;
-    } 
-    else {
+
+    if (res) {
         inode = inew();
         inode->i_fop = &ramfs_file_operations;
         inode->i_op = &ramfs_file_inode_operations;
         inode->i_info = res->d_inode;
 
         dest->d_inode = inode;
-        return dest;
     }
+    
+    return dest;
 }
 
 int ramfs_file_write(struct file *self, const char *buffer, int count) {

@@ -1,5 +1,5 @@
-#include <v2fs.h>
-#include <error.h>
+#include <v2fs/v2fs.h>
+#include <v2fs/error.h>
 #include <internal.h>
 
 int v2fs_init() {

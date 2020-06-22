@@ -1,7 +1,7 @@
 #pragma once
 
-#include <types.h>
-#include <inode.h>
+#include <v2fs/types.h>
+#include <v2fs/inode.h>
 
 //
 // Represents a Directory Entry, which associates a filename with a inode, as well as

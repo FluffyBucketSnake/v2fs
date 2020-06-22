@@ -1,7 +1,7 @@
 #pragma once
 
-#include <mount.h>
-#include <dentry.h>
+#include <v2fs/mount.h>
+#include <v2fs/dentry.h>
 
 //
 // Represents a mounted file system and holds the data and operations necessary to

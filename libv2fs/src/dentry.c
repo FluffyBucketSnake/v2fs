@@ -1,8 +1,8 @@
-#include <dentry.h>
+#include <v2fs/dentry.h>
+#include <v2fs/error.h>
 #include <stdlib.h>
 #include <string.h>
 #include "internal.h"
-#include <error.h>
 
 struct dentry *dnew(const char *filename, struct inode *inode) {
     struct dentry *new = malloc(sizeof(struct dentry));

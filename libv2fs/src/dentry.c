@@ -42,6 +42,19 @@ struct dentry *dlookup(struct dentry *self, const char *filename) {
     }
 }
 
+hash_t dhash(struct dentry *dentry) {
+    // Currently based on djb2 string hash algorithm.
+    // Lookup to: http://www.cse.yorku.ca/~oz/hash.html
+    const char *str = dentry->d_name;
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *(str++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
+}
+
 int path_lookup(const char *pathname, struct nameidata *nd) {
     size_t len;
 

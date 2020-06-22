@@ -36,6 +36,11 @@ void *dput(struct dentry *dentry);
 struct dentry *dlookup(struct dentry *self, const char *filename);
 
 //
+// Creates a hash value for the specified dentry.
+//
+hash_t dhash(struct dentry *dentry);
+
+//
 // Data structure used for pathname traversal.
 //
 struct nameidata {

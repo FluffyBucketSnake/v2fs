@@ -4,14 +4,22 @@
 #include <ramfs.h>
 
 int main() {
+    //
+    // Initialization.
+    //
+
     // Initialize V2FS
     v2fs_init();
 
     // Init ramfs module.
     ramfs_init();
-
+    
     // Mount the root filesystem.
     v2fs_mount_root("ramfs");
+
+    //
+    // Creating and writing to a file.
+    //
 
     // Create file.
     fd_t fd = open("arquivo0");
@@ -22,6 +30,10 @@ int main() {
 
     // Close file.
     close(fd);
+
+    //
+    // Reading from a file
+    //
 
     // Open the file again.
     fd = open("arquivo0");
@@ -40,6 +52,10 @@ int main() {
 
     // Close file.
     close(fd);
+
+    //
+    // Unitializing a file.
+    //
 
     // Uninitialize the V2FS.
     v2fs_close();

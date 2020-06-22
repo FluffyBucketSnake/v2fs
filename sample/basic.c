@@ -8,7 +8,7 @@ int main() {
     v2fs_init();
 
     // Init ramfs module.
-    // ramfs_init();
+    ramfs_init();
 
     // Mount the root filesystem.
     v2fs_mount_root("ramfs");
@@ -31,7 +31,7 @@ int main() {
     char c;
     char text1[256];
     memset(text1, 0, 256);
-    while (read(fd, &c, 1, sizeof(char))) {
+    while (read(fd, &c, 1, sizeof(char)) > 0) {
         text1[i++] = c;
     }
 
